@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-do-list</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><img src="to-do.png" alt="To Do Icon"> Plan your day ahead</h1>
+        
+            <div class="input-container">
+                <input type="text" id="text-box-input">
+                <button id="addtask-button" type="button">
+                    <i class="fa-solid fa-plus">ADD</i>
+                </button>
+            </div>
+
+            <div class="todo-container">
+                <h2>Do your day productive</h2>
+            </div>
+        </div>
+    </div>
+    <script>
+        const textboxInput = document.querySelector('#text-box-input');
+        const addtaskButton = document.querySelector('#addtask-button');
+        const todoContainer = document.querySelector('.todo-container');
+    
+        addtaskButton.addEventListener('click', () => {
+            if (textboxInput.value.trim().length === 0) {
+                return;
+            }
+    
+            const taskList = document.createElement('div');
+            taskList.classList.add('task-list');
+    
+            const todoText = document.createElement('p');
+            todoText.id = 'todo-text';
+            todoText.innerText = textboxInput.value;
+            taskList.appendChild(todoText);
+    
+            const editBtn = document.createElement('button');
+            editBtn.id = 'edit-btn';
+            editBtn.innerText = 'Edit';
+            taskList.appendChild(editBtn);
+    
+            editBtn.addEventListener('click', () => {
+                editTask(todoText);
+            });
+    
+            const delBtn = document.createElement('button');
+            delBtn.id = 'del-btn';
+            delBtn.innerText = 'Delete';
+            taskList.appendChild(delBtn);
+    
+            delBtn.addEventListener('click', () => {
+                taskList.remove();
+            });
+    
+            todoContainer.appendChild(taskList);
+            textboxInput.value = "";
+        });
+    
+        function editTask(todoText) {
+            const editInput = document.createElement('input');
+            editInput.type = 'text';
+            editInput.value = todoText.innerText;
+    
+            editInput.addEventListener('blur', () => {
+                todoText.innerText = editInput.value;
+                editInput.replaceWith(todoText);
+            });
+    
+            todoText.replaceWith(editInput);
+            editInput.focus();
+        }
+    </script>
+</body>
+</html>
